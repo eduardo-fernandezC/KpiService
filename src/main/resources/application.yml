@@ -6,4 +6,4 @@ spring:
     name: ${SPRING_APPLICATION_NAME:kpiservice}
 
 dataservice:
-  url: ${DATASERVICE_URL:http://localhost:8092}
+  url: ${DATASERVICE_URL:http://localhost:8090}
