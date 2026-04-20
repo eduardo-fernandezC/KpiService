@@ -30,6 +30,7 @@ public class DataClient {
                 .block();
     }
 }
+
 // WebClient es una clase de Spring que permite hacer peticiones HTTP de manera reactiva 
 // es decir sin bloquear el hilo principal lo que mejora el rendimiento y la escalabilidad 
 // de la aplicacion. En este caso, se utiliza para hacer una petición GET a DataService y obtener la lista de ventas.
