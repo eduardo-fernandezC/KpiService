@@ -16,6 +16,7 @@ public class DataClient {
     @Value("${DATASERVICE_URL:http://localhost:8090}")
     private String baseUrl;
 
+    // DataClient es un cliente que se conecta a DataService para obtener las ventas, usando WebClient
     public DataClient(WebClient webClient) {
         this.webClient = webClient;
     }
@@ -29,3 +30,6 @@ public class DataClient {
                 .block();
     }
 }
+// WebClient es una clase de Spring que permite hacer peticiones HTTP de manera reactiva 
+// es decir sin bloquear el hilo principal lo que mejora el rendimiento y la escalabilidad 
+// de la aplicacion. En este caso, se utiliza para hacer una petición GET a DataService y obtener la lista de ventas.

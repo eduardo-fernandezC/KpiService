@@ -1,3 +1,5 @@
+// este controller solo es de pruebas que se conecte a DataService y traiga las ventas, para probar que 
+// el feign client funciona correctamente, luego se borra este controller
 package com.KpiService.controller;
 
 import java.util.List;
