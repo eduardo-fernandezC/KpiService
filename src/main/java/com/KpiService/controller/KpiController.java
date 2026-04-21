@@ -29,4 +29,35 @@ public class KpiController {
     public KpiResponse GetPromedioVentas() {
         return kpiService.promedioVentas();
     }
+
+    //ROCIO
+    @GetMapping("/ventas/hoy")
+    public KpiResponse ventasHoy() {
+        return kpiService.ventasHoy();
+    }
+
+    @GetMapping("/ventas/mes")
+    public KpiResponse ventasMes() {
+        return kpiService.ventasMes();
+    }
+
+    @GetMapping("/ventas/hoy/cantidad")
+    public KpiResponse cantidadHoy() {
+        return kpiService.cantidadVentasHoy();
+    }
+
+    @GetMapping("/ventas/mes/cantidad")
+    public KpiResponse cantidadMes() {
+        return kpiService.cantidadVentasMes();
+    }
+
+    @GetMapping("/ventas/hoy/promedio")
+    public KpiResponse promedioHoy() {
+        return kpiService.promedioVentasHoy();
+    }
+
+    @GetMapping("/ventas/mes/promedio")
+    public KpiResponse promedioMes() {
+        return kpiService.promedioVentasMes();
+    }
 }
