@@ -148,7 +148,7 @@ public class KpiService {
                 .sum();
 
         double crecimiento = anteriorTotal == 0 ? 0 :
-                (actualTotal - anteriorTotal) / anteriorTotal;
+        ((actualTotal - anteriorTotal) / anteriorTotal) * 100;
 
         return new KpiResponse("Crecimiento ventas", crecimiento);
     }
