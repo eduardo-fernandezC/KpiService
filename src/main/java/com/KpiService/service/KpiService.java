@@ -51,7 +51,6 @@ public class KpiService {
         return new KpiResponse("Promedio Ventas", redondeado);
     }
 
-    //ROCIO
     // ventas hoy
     public KpiResponse ventasHoy() {
         LocalDate hoy = LocalDate.now();
