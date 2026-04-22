@@ -65,7 +65,7 @@ public class KpiService {
 
     //ventas mes
     public KpiResponse ventasMes() {
-        YearMonth mesActual = YearMonth.now();
+        YearMonth mesActual = YearMonth.now();  
 
         double total = dataClient.getVentas().stream()
                 .filter(v -> v.getFecha() != null &&
