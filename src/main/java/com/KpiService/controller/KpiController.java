@@ -9,7 +9,7 @@ import com.KpiService.service.KpiService;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequestMapping("/kpis")
+@RequestMapping("/api/v1/kpis")
 public class KpiController {
 
     @Autowired
@@ -30,33 +30,32 @@ public class KpiController {
         return kpiService.promedioVentas();
     }
 
-    //ROCIO
-    @GetMapping("/ventas/hoy")
+    @GetMapping("/ventas-hoy")
     public KpiResponse ventasHoy() {
         return kpiService.ventasHoy();
     }
 
-    @GetMapping("/ventas/mes")
+    @GetMapping("/ventas-mes")
     public KpiResponse ventasMes() {
         return kpiService.ventasMes();
     }
 
-    @GetMapping("/ventas/hoy/cantidad")
+    @GetMapping("/ventas-hoy-cantidad")
     public KpiResponse cantidadHoy() {
         return kpiService.cantidadVentasHoy();
     }
 
-    @GetMapping("/ventas/mes/cantidad")
+    @GetMapping("/ventas-mes-cantidad")
     public KpiResponse cantidadMes() {
         return kpiService.cantidadVentasMes();
     }
 
-    @GetMapping("/ventas/hoy/promedio")
+    @GetMapping("/ventas-hoy-promedio")
     public KpiResponse promedioHoy() {
         return kpiService.promedioVentasHoy();
     }
 
-    @GetMapping("/ventas/mes/promedio")
+    @GetMapping("/ventas-mes-promedio")
     public KpiResponse promedioMes() {
         return kpiService.promedioVentasMes();
     }
