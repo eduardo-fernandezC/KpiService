@@ -129,4 +129,27 @@ public class KpiService {
 
         return new KpiResponse("Promedio ventas mes", redondeado);
     }
+
+    // crecimiento mensual
+    public KpiResponse crecimientoVentas() {
+        YearMonth actual = YearMonth.now();
+        YearMonth anterior = actual.minusMonths(1);
+
+        double actualTotal = dataClient.getVentas().stream()
+                .filter(v -> v.getFecha() != null &&
+                        YearMonth.from(v.getFecha()).equals(actual))
+                .mapToDouble(Venta::getTotal)
+                .sum();
+
+        double anteriorTotal = dataClient.getVentas().stream()
+                .filter(v -> v.getFecha() != null &&
+                        YearMonth.from(v.getFecha()).equals(anterior))
+                .mapToDouble(Venta::getTotal)
+                .sum();
+
+        double crecimiento = anteriorTotal == 0 ? 0 :
+        ((actualTotal - anteriorTotal) / anteriorTotal) * 100;
+
+        return new KpiResponse("Crecimiento ventas", crecimiento);
+    }
 }

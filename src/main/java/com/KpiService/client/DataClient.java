@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.KpiService.model.DetalleVenta;
 import com.KpiService.model.Venta;
 
 @Component
@@ -26,6 +27,15 @@ public class DataClient {
                 .uri(baseUrl + "/api/v1/ventas")
                 .retrieve()
                 .bodyToFlux(Venta.class)
+                .collectList()
+                .block();
+    }
+
+    public List<DetalleVenta> getDetalleVentas() {
+        return webClient.get()
+                .uri(baseUrl + "/api/v1/detalle-ventas")
+                .retrieve()
+                .bodyToFlux(DetalleVenta.class)
                 .collectList()
                 .block();
     }
