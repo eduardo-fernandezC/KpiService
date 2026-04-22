@@ -59,4 +59,9 @@ public class KpiController {
     public KpiResponse promedioMes() {
         return kpiService.promedioVentasMes();
     }
+
+    @GetMapping("/ventas-crecimiento")
+    public KpiResponse crecimiento() {
+        return kpiService.crecimientoVentas();
+    }
 }
