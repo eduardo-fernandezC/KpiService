@@ -1,7 +1,5 @@
 package com.KpiService.model;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Venta {
+public class Empleado {
 
-    private Long idVenta;
-    private Double total;
-    private LocalDate fecha;
-    private Empleado empleado;
-    private Sucursal sucursal;
+    private Long idEmpleado;
+    private String nombre;
 }

@@ -1,11 +1,16 @@
 package com.KpiService.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.KpiService.dto.KpiResponse;
+import com.KpiService.dto.MejorVendedorSucursalKpi;
 import com.KpiService.dto.ProductoKpi;
+import com.KpiService.dto.SucursalKpi;
 import com.KpiService.service.KpiService;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -74,5 +79,15 @@ public class KpiController {
     @GetMapping("/producto-menos-vendido") // endpoint para obtener el producto menos vendido
     public ProductoKpi productoMenosVendido() {
         return kpiService.productoMenosVendido();
+    }
+
+    @GetMapping("/mejor-vendedor-sucursal") // endpoint para obtener el mejor vendedor por sucursal
+    public List<MejorVendedorSucursalKpi> mejorVendedorPorSucursal() {
+        return kpiService.mejorVendedorPorSucursal();
+    }
+
+    @GetMapping("/sucursal-rendimiento") // endpoint para obtener el rendimiento de las sucursales
+    public Map<String, SucursalKpi> rendimientoSucursales() {
+        return kpiService.rendimientoSucursales();
     }
 }
