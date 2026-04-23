@@ -3,14 +3,16 @@ package com.KpiService.service;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.KpiService.client.DataClient;
 import com.KpiService.dto.KpiResponse;
+import com.KpiService.dto.ProductoKpi;
 import com.KpiService.model.DetalleVenta;
-import com.KpiService.model.Producto;
 import com.KpiService.model.Venta;
 
 @Service
@@ -155,5 +157,37 @@ public class KpiService {
         double redondeado = Math.round(crecimiento * 10.0) / 10.0;
 
         return new KpiResponse("Crecimiento ventas", redondeado);
+    }
+
+    // producto mas vendido
+    public ProductoKpi productoMasVendido() {
+
+        List<DetalleVenta> detalles = dataClient.getDetalleVentas();
+
+        return detalles.stream()
+                .collect(Collectors.groupingBy( // Collectors.groupingBy para agrupar por producto
+                d -> d.getProducto().getNombre(),
+                Collectors.summingInt(DetalleVenta::getCantidad)
+                ))
+                .entrySet().stream() // entrySet es para convertir el mapa en un stream de entradas (clave-valor)
+                .max(Map.Entry.comparingByValue()) // max para obtener el producto con la mayor cantidad vendida comparando por el valor (cantidad)
+                .map(e -> new ProductoKpi(e.getKey(), e.getValue()))
+                .orElse(null);
+    }
+
+    // producto menos vendido
+    public ProductoKpi productoMenosVendido() {
+
+    List<DetalleVenta> detalles = dataClient.getDetalleVentas();
+
+    return detalles.stream()
+        .collect(Collectors.groupingBy(
+            d -> d.getProducto().getNombre(),
+            Collectors.summingInt(DetalleVenta::getCantidad)
+        ))
+        .entrySet().stream()
+        .min(Map.Entry.comparingByValue()) // min para obtener el producto con la menor cantidad vendida comparando por el valor (cantidad)
+        .map(e -> new ProductoKpi(e.getKey(), e.getValue()))
+        .orElse(null);
     }
 }
