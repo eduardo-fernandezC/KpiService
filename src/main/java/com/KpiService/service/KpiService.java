@@ -150,6 +150,8 @@ public class KpiService {
         double crecimiento = anteriorTotal == 0 ? 0 :
         ((actualTotal - anteriorTotal) / anteriorTotal) * 100;
 
-        return new KpiResponse("Crecimiento ventas", crecimiento);
+        double redondeado = Math.round(crecimiento * 10.0) / 10.0;
+
+        return new KpiResponse("Crecimiento ventas", redondeado);
     }
 }
