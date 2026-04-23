@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.KpiService.dto.KpiResponse;
+import com.KpiService.dto.ProductoKpi;
 import com.KpiService.service.KpiService;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -60,8 +61,18 @@ public class KpiController {
         return kpiService.promedioVentasMes();
     }
 
-    @GetMapping("/ventas-crecimiento")
+    @GetMapping("/ventas-crecimiento") // endpoint para obtener el crecimiento de las ventas
     public KpiResponse crecimiento() {
         return kpiService.crecimientoVentas();
+    }
+
+    @GetMapping("/producto-mas-vendido") // endpoint para obtener el producto mas vendido
+    public ProductoKpi productoMasVendido() {
+        return kpiService.productoMasVendido();
+    }
+
+    @GetMapping("/producto-menos-vendido") // endpoint para obtener el producto menos vendido
+    public ProductoKpi productoMenosVendido() {
+        return kpiService.productoMenosVendido();
     }
 }

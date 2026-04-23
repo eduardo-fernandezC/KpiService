@@ -39,6 +39,7 @@ public class DataClient {
                 .collectList()
                 .block();
     }
+
 }
 
 // WebClient es una clase de Spring que permite hacer peticiones HTTP de manera reactiva 
