@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.KpiService.client.DataClient;
 import com.KpiService.dto.KpiResponse;
+import com.KpiService.model.DetalleVenta;
+import com.KpiService.model.Producto;
 import com.KpiService.model.Venta;
 
 @Service
