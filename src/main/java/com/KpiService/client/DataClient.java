@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.KpiService.dto.VentaResponse;
 import com.KpiService.model.DetalleVenta;
-import com.KpiService.model.Venta;
 
 @Component
 public class DataClient {
@@ -22,13 +22,13 @@ public class DataClient {
         this.webClient = webClient;
     }
 
-    public List<Venta> getVentas() {
-        return webClient.get()
-                .uri(baseUrl + "/api/v1/ventas")
-                .retrieve()
-                .bodyToFlux(Venta.class)
-                .collectList()
-                .block();
+    public List<VentaResponse> getVentas() {
+    return webClient.get()
+            .uri(baseUrl + "/api/v1/ventas/dto")
+            .retrieve()
+            .bodyToFlux(VentaResponse.class)
+            .collectList()
+            .block();
     }
 
     public List<DetalleVenta> getDetalleVentas() {
@@ -39,7 +39,6 @@ public class DataClient {
                 .collectList()
                 .block();
     }
-
 }
 
 // WebClient es una clase de Spring que permite hacer peticiones HTTP de manera reactiva 
