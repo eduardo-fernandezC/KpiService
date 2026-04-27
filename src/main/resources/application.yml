@@ -1,9 +1,9 @@
 server:
-  port: ${SERVER_PORT:8092}
+  port: ${SERVER_PORT}
 
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME:kpiservice}
+    name: ${SPRING_APPLICATION_NAME}
 
 dataservice:
-  url: ${DATASERVICE_URL:http://localhost:8090}
+  url: ${DATASERVICE_URL}
