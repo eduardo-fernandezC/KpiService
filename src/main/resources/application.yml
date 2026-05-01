@@ -6,4 +6,4 @@ spring:
     name: ${SPRING_APPLICATION_NAME}
 
 dataservice:
-  url: ${DATASERVICE_URL}
+  url: ${DATASERVICE_URL:http://localhost:8090}
