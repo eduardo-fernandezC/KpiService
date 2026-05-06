@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.KpiService.dto.VentaResponse;
 import com.KpiService.model.DetalleVenta;
+import com.KpiService.model.Producto;
 
 @Component
 public class DataClient {
@@ -23,21 +24,36 @@ public class DataClient {
     }
 
     public List<VentaResponse> getVentas() {
-    return webClient.get()
+        List<VentaResponse> ventas = webClient.get()
             .uri(baseUrl + "/api/v1/ventas/dto")
             .retrieve()
             .bodyToFlux(VentaResponse.class)
             .collectList()
             .block();
+
+        return ventas != null ? ventas : List.of();
     }
 
     public List<DetalleVenta> getDetalleVentas() {
-        return webClient.get()
+        List<DetalleVenta> detalles = webClient.get()
                 .uri(baseUrl + "/api/v1/detalle-ventas")
                 .retrieve()
                 .bodyToFlux(DetalleVenta.class)
                 .collectList()
                 .block();
+
+        return detalles != null ? detalles : List.of();
+        }
+
+        public List<Producto> getProductos() {
+        List<Producto> productos = webClient.get()
+            .uri(baseUrl + "/api/v1/productos")
+            .retrieve()
+            .bodyToFlux(Producto.class)
+            .collectList()
+            .block();
+
+        return productos != null ? productos : List.of();
     }
 }
 

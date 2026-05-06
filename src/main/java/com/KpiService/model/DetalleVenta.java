@@ -11,6 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DetalleVenta {
     
+    private Long idDetalle;
     private Integer cantidad;
+    private Double subtotal;
     private Producto producto;
 }
