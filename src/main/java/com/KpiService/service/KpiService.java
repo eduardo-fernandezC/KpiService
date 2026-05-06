@@ -5,6 +5,7 @@ import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.KpiService.dto.ProductoKpi;
 import com.KpiService.dto.SucursalKpi;
 import com.KpiService.dto.VentaResponse;
 import com.KpiService.model.DetalleVenta;
+import com.KpiService.model.Producto;
 
 @Service
 public class KpiService {
@@ -181,34 +183,64 @@ public class KpiService {
     // producto mas vendido
     public ProductoKpi productoMasVendido() {
 
-        List<DetalleVenta> detalles = dataClient.getDetalleVentas();
-
-        return detalles.stream()
-                .collect(Collectors.groupingBy( // Collectors.groupingBy para agrupar por producto
-                d -> d.getProducto().getNombre(),
-                Collectors.summingInt(DetalleVenta::getCantidad)
-                ))
-                .entrySet().stream() // entrySet es para convertir el mapa en un stream de entradas (clave-valor)
-                .max(Map.Entry.comparingByValue()) // max para obtener el producto con la mayor cantidad vendida comparando por el valor (cantidad)
-                .map(e -> new ProductoKpi(e.getKey(), e.getValue()))
-                .orElse(null);
+        return obtenerCantidadesPorProducto().entrySet().stream()
+            .max(Map.Entry.comparingByValue())
+            .map(e -> new ProductoKpi(e.getKey(), e.getValue()))
+            .orElse(null);
     }
 
     // producto menos vendido
     public ProductoKpi productoMenosVendido() {
 
-    List<DetalleVenta> detalles = dataClient.getDetalleVentas();
-
-    return detalles.stream()
-        .collect(Collectors.groupingBy(
-            d -> d.getProducto().getNombre(),
-            Collectors.summingInt(DetalleVenta::getCantidad)
-        ))
-        .entrySet().stream()
-        .min(Map.Entry.comparingByValue()) // min para obtener el producto con la menor cantidad vendida comparando por el valor (cantidad)
-        .map(e -> new ProductoKpi(e.getKey(), e.getValue()))
-        .orElse(null);
+        return obtenerCantidadesPorProducto().entrySet().stream()
+            .min(Map.Entry.comparingByValue())
+            .map(e -> new ProductoKpi(e.getKey(), e.getValue()))
+            .orElse(null);
     }
+
+        private Map<String, Integer> obtenerCantidadesPorProducto() {
+        List<DetalleVenta> detalles = dataClient.getDetalleVentas();
+
+        Map<String, Integer> cantidadesConProducto = detalles.stream()
+            .filter(d -> d != null
+                && d.getProducto() != null
+                && d.getProducto().getNombre() != null
+                && d.getCantidad() != null)
+            .collect(Collectors.groupingBy(
+                d -> d.getProducto().getNombre(),
+                Collectors.summingInt(DetalleVenta::getCantidad)
+            ));
+
+        if (!cantidadesConProducto.isEmpty()) {
+            return cantidadesConProducto;
+        }
+
+        Map<Long, String> nombrePorPrecio = dataClient.getProductos().stream()
+            .filter(p -> p != null && p.getNombre() != null && p.getPrecio() != null)
+            .collect(Collectors.toMap(
+                p -> toCents(p.getPrecio()),
+                Producto::getNombre,
+                (existente, nuevo) -> existente,
+                LinkedHashMap::new
+            ));
+
+        return detalles.stream()
+            .filter(d -> d != null
+                && d.getCantidad() != null
+                && d.getCantidad() > 0
+                && d.getSubtotal() != null)
+            .collect(Collectors.groupingBy(
+                d -> {
+                    long precioUnitario = toCents(d.getSubtotal() / d.getCantidad());
+                    return nombrePorPrecio.getOrDefault(precioUnitario, "Producto sin nombre");
+                },
+                Collectors.summingInt(DetalleVenta::getCantidad)
+            ));
+        }
+
+        private long toCents(Double valor) {
+        return Math.round(valor * 100.0);
+        }
 
     // mejor vendedor por sucursal
     public List<MejorVendedorSucursalKpi> mejorVendedorPorSucursal() {
