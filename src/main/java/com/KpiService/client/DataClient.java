@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.KpiService.dto.VentaPageResponse;
 import com.KpiService.dto.VentaResponse;
 import com.KpiService.model.DetalleVenta;
 import com.KpiService.model.Producto;
@@ -24,14 +25,27 @@ public class DataClient {
     }
 
     public List<VentaResponse> getVentas() {
-        List<VentaResponse> ventas = webClient.get()
-            .uri(baseUrl + "/api/v1/ventas/dto")
-            .retrieve()
-            .bodyToFlux(VentaResponse.class)
-            .collectList()
-            .block();
 
-        return ventas != null ? ventas : List.of();
+        try {
+
+            VentaPageResponse response = webClient.get()
+                    .uri(baseUrl + "/api/v1/ventas/dto?page=0&size=10000")
+                    .retrieve()
+                    .bodyToMono(VentaPageResponse.class)
+                    .block();
+
+            if (response == null || response.getContent() == null) {
+                return List.of();
+            }
+
+            return response.getContent();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return List.of();
+        }
     }
 
     public List<DetalleVenta> getDetalleVentas() {
